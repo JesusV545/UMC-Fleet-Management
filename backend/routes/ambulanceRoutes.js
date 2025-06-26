@@ -6,12 +6,57 @@ const AmbulanceUnit = require('../models/AmbulanceUnit');
 // @desc    Get all ambulance units
 router.get('/', async (req, res) => {
   try {
-    const units = await AmbulanceUnit.find();
-    res.json(units);
+    const {
+      isOperational,
+      cleanliness,
+      mileageOver,
+      oilChangeDue,
+      sortBy,
+      sortOrder = 'asc'
+    } = req.query;
+
+    const filter = {};
+
+    if (isOperational === 'false') filter.isOperational = false;
+    else if (isOperational === 'true') filter.isOperational = true;
+
+    if (cleanliness) filter['cleanliness.interior'] = cleanliness;
+
+    if (mileageOver) filter.mileage = { $gt: parseInt(mileageOver) };
+
+    if (oilChangeDue === 'true') {
+      filter.$expr = { $lt: ['$oilChangeDueAt', '$mileage'] };
+    }
+
+    const sortOptions = {};
+    if (sortBy) {
+      sortOptions[sortBy] = sortOrder === 'desc' ? -1 : 1;
+    }
+
+    // Pagination
+    const page = parseInt(req.query.page) || 1;
+    const limit = 8;
+    const skip = (page - 1) * limit;
+
+    const units = await AmbulanceUnit.find(filter)
+      .sort(sortOptions)
+      .skip(skip)
+      .limit(limit);
+
+    const total = await AmbulanceUnit.countDocuments(filter);
+
+    res.json({
+      units,
+      page,
+      totalPages: Math.ceil(total / limit),
+      totalUnits: total
+    });
   } catch (err) {
-    res.status(500).json({ message: 'Server error', error: err.message });
+    res.status(500).json({ message: 'Error fetching units', error: err.message });
   }
 });
+
+
 
 // @route   POST /api/units
 // @desc    Create a new ambulance unit
