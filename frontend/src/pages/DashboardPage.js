@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import UnitCard from "../components/UnitCard";
-import HeroSection from "../components/HeroSection";
+
 
 const DashboardPage = () => {
   const [units, setUnits] = useState([]);
@@ -30,7 +30,6 @@ const DashboardPage = () => {
 
   return (
     <div>
-      <HeroSection />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6" id="fleet">
         <h2 className="text-xl font-semibold mb-4 text-gray-700">Ambulance Units</h2>

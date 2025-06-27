@@ -1,17 +1,26 @@
-import React from 'react';
-import DashboardPage from './pages/DashboardPage';
+// src/App.js
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Navbar from "./components/Navbar";
+import DashboardPage from "./pages/DashboardPage";
+import ReportDamagePage from "./pages/ReportDamagePage";
+import MaintenanceTrackerPage from "./pages/MaintenanceTrackerPage";
+import FleetOverviewPage from "./pages/FleetOverviewPage";
+import InspectionLogPage from "./pages/InspectionLogPage";
+import AdminPanelPage from "./pages/AdminPanelPage";
 
 function App() {
   return (
-    <div className="bg-gray-50 min-h-screen">
-      <header className="bg-primary text-white p-4">
-        <div className="max-w-6xl mx-auto">
-          <h1 className="text-2xl font-bold">UMC Fleet Dashboard</h1>
-        </div>
-      </header>
-
-      <DashboardPage />
-    </div>
+    <Router>
+      <Navbar/>
+      <Routes>
+        <Route path="/" element={<DashboardPage />} />
+        <Route path="/report-damage" element={<ReportDamagePage />} />
+        <Route path="/maintenance-tracker" element={<MaintenanceTrackerPage />} />
+        <Route path="/fleet-overview" element={<FleetOverviewPage />} />
+        <Route path="/inspection-log" element={<InspectionLogPage />} />
+        <Route path="/admin" element={<AdminPanelPage />} />
+      </Routes>
+    </Router>
   );
 }
 
