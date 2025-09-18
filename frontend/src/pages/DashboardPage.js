@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import UnitCard from "../components/UnitCard";
-import HeroSection from "../components/HeroSection";
+
+const PAGE_SIZE = 8;
 
 const DashboardPage = () => {
   const [units, setUnits] = useState([]);
@@ -30,13 +31,15 @@ const DashboardPage = () => {
 
   return (
     <div>
-      <HeroSection />
-
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6" id="fleet">
         <h2 className="text-xl font-semibold mb-4 text-gray-700">Ambulance Units</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {units.map((unit) => (
-            <UnitCard key={unit._id} unit={unit} />
+        <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-6">
+          {units.map((unit, index) => (
+            <UnitCard
+              key={unit._id || index}
+              unit={unit}
+              displayNumber={`UMC-${(page - 1) * PAGE_SIZE + index + 1}`}
+            />
           ))}
         </div>
 
