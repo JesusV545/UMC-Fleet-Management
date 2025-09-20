@@ -10,6 +10,7 @@ const Navbar = () => {
       <div className="space-x-4 flex flex-wrap justify-center">
         <Link to="/" className="hover:text-gray-300 transition">Dashboard</Link>
         <Link to="/report-damage" className="hover:text-gray-300 transition">Report Damage</Link>
+        <Link to="/damage-reports" className="hover:text-gray-300 transition">Damage Reports</Link>
         <Link to="/maintenance-tracker" className="hover:text-gray-300 transition">Maintenance Tracker</Link>
         <Link to="/fleet-overview" className="hover:text-gray-300 transition">Fleet Overview</Link>
         <Link to="/inspection-log" className="hover:text-gray-300 transition">Inspection Log</Link>

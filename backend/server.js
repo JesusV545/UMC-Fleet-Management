@@ -1,8 +1,10 @@
-// server.js
+﻿// server.js
 
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const path = require('path');
+const fs = require('fs');
 require('dotenv').config();
 
 const app = express();
@@ -12,7 +14,14 @@ app.use(cors());
 app.use(express.json());
 
 const ambulanceRoutes = require('./routes/ambulanceRoutes');
+const damageReportRoutes = require('./routes/damageReportRoutes');
+
+const uploadsDir = path.join(__dirname, 'uploads');
+fs.mkdirSync(uploadsDir, { recursive: true });
+app.use('/uploads', express.static(uploadsDir));
+
 app.use('/api/units', ambulanceRoutes);
+app.use('/api/damage-reports', damageReportRoutes);
 
 // Test route
 app.get('/api/health', (req, res) => {
